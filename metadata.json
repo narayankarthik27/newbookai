@@ -1,0 +1,6 @@
+{
+  "name": "AI Book Recommender & Vector Store",
+  "description": "Interactive book recommendation engine powered by vector embeddings, vector similarity search, and Gemini LLM synthesis, replicating and extending Nathan Cordeiro's project.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
