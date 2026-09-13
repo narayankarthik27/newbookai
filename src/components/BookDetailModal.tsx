@@ -101,17 +101,42 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-col sm:flex-row gap-2">
                 <button
                   id="btn-modal-find-similar"
                   onClick={() => {
                     onFindSimilar(book);
                     onClose();
                   }}
-                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-semibold text-xs flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/10 transition-all cursor-pointer"
+                  className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-semibold text-xs flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/10 transition-all cursor-pointer"
                 >
                   <Sparkles className="w-4 h-4" />
-                  <span>Find Nearest Vector Neighbors to This Book</span>
+                  <span>Find Similar Neighbors</span>
+                </button>
+
+                <button
+                  onClick={async () => {
+                    try {
+                      await fetch('/api/favorites', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          book_isbn13: book.isbn13,
+                          book_title: book.title,
+                          book_authors: book.authors,
+                          thumbnail: book.thumbnail,
+                          notes: 'Bookmarked from Book Recommender',
+                        }),
+                      });
+                      alert(`Saved "${book.title}" to Supabase!`);
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  }}
+                  className="py-2.5 px-4 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-semibold text-xs flex items-center justify-center space-x-2 border border-neutral-700 transition-all cursor-pointer"
+                >
+                  <Bookmark className="w-4 h-4 text-emerald-400" />
+                  <span>Save to Supabase</span>
                 </button>
               </div>
             </div>

@@ -9,11 +9,12 @@ import { RecommendationStudio } from './components/RecommendationStudio';
 import { ArchitectureExplainer } from './components/ArchitectureExplainer';
 import { DatasetExplorer } from './components/DatasetExplorer';
 import { BookDetailModal } from './components/BookDetailModal';
+import { FavoritesManager } from './components/FavoritesManager';
 import { Book, DatasetStats } from './types';
 import { Github, Database, Cpu, Layers } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'recommend' | 'explainer' | 'dataset'>('recommend');
+  const [activeTab, setActiveTab] = useState<'recommend' | 'explainer' | 'dataset' | 'favorites'>('recommend');
   const [stats, setStats] = useState<DatasetStats | null>(null);
   const [selectedBookForDetail, setSelectedBookForDetail] = useState<Book | null>(null);
   const [selectedAnchorBook, setSelectedAnchorBook] = useState<Book | null>(null);
@@ -47,6 +48,13 @@ export default function App() {
             onSelectBookForDetail={(book) => setSelectedBookForDetail(book)}
             selectedAnchorBook={selectedAnchorBook}
             setSelectedAnchorBook={setSelectedAnchorBook}
+          />
+        )}
+
+        {activeTab === 'favorites' && (
+          <FavoritesManager
+            onSelectBookForDetail={(book) => setSelectedBookForDetail(book)}
+            onFindSimilar={handleFindSimilarFromAnywhere}
           />
         )}
 

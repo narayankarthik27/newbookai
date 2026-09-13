@@ -3,8 +3,8 @@ import { BookOpen, BrainCircuit, Database, Sparkles, Compass } from 'lucide-reac
 import { DatasetStats } from '../types';
 
 interface HeaderProps {
-  activeTab: 'recommend' | 'explainer' | 'dataset';
-  setActiveTab: (tab: 'recommend' | 'explainer' | 'dataset') => void;
+  activeTab: 'recommend' | 'explainer' | 'dataset' | 'favorites';
+  setActiveTab: (tab: 'recommend' | 'explainer' | 'dataset' | 'favorites') => void;
   stats: DatasetStats | null;
 }
 
@@ -30,6 +30,10 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono">
                   LLM + Vector Store
                 </span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Supabase Live
+                </span>
               </div>
               <p className="text-xs text-neutral-400">
                 Built from Nathan Cordeiro’s project &bull; 6,810 Books Vectorized
@@ -38,11 +42,11 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Navigation Tabs */}
-          <nav className="flex items-center p-1 bg-neutral-950/80 border border-neutral-800 rounded-xl self-start md:self-auto">
+          <nav className="flex items-center p-1 bg-neutral-950/80 border border-neutral-800 rounded-xl self-start md:self-auto overflow-x-auto max-w-full">
             <button
               id="tab-recommend"
               onClick={() => setActiveTab('recommend')}
-              className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                 activeTab === 'recommend'
                   ? 'bg-amber-500 text-neutral-950 shadow font-semibold'
                   : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
@@ -53,28 +57,41 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             <button
+              id="tab-favorites"
+              onClick={() => setActiveTab('favorites')}
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                activeTab === 'favorites'
+                  ? 'bg-emerald-500 text-neutral-950 shadow font-semibold'
+                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
+              }`}
+            >
+              <Database className="w-3.5 h-3.5" />
+              <span>Supabase Saved</span>
+            </button>
+
+            <button
               id="tab-explainer"
               onClick={() => setActiveTab('explainer')}
-              className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                 activeTab === 'explainer'
                   ? 'bg-amber-500 text-neutral-950 shadow font-semibold'
                   : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
               }`}
             >
               <Compass className="w-3.5 h-3.5" />
-              <span>Project & Architecture Guide</span>
+              <span>Architecture Guide</span>
             </button>
 
             <button
               id="tab-dataset"
               onClick={() => setActiveTab('dataset')}
-              className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                 activeTab === 'dataset'
                   ? 'bg-amber-500 text-neutral-950 shadow font-semibold'
                   : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
               }`}
             >
-              <Database className="w-3.5 h-3.5" />
+              <BookOpen className="w-3.5 h-3.5" />
               <span>Dataset Catalog ({stats ? stats.totalBooks.toLocaleString() : '6,810'})</span>
             </button>
           </nav>

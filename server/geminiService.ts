@@ -54,14 +54,29 @@ Format your response strictly as JSON with this structure:
 }
 Return only valid JSON.`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        temperature: 0.3,
-      },
-    });
+    const candidateModels = ['gemini-3.6-flash', 'gemini-3.1-pro-preview', 'gemini-2.5-flash'];
+    let response: any = null;
+    let lastError: any = null;
+
+    for (const model of candidateModels) {
+      try {
+        response = await ai.models.generateContent({
+          model,
+          contents: prompt,
+          config: {
+            responseMimeType: 'application/json',
+            temperature: 0.3,
+          },
+        });
+        if (response) break;
+      } catch (e) {
+        lastError = e;
+      }
+    }
+
+    if (!response && lastError) {
+      throw lastError;
+    }
 
     const text = response.text || '';
     const parsed = JSON.parse(text);
